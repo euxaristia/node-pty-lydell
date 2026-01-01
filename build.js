@@ -11,32 +11,12 @@ const ORIGINAL_PACKAGE = path.join(
 
 const PACKAGES = path.join(import.meta.dirname, "packages");
 
-const VARIANTS = [
-  {
-    platform: "darwin",
-    arch: "x64",
-  },
-  {
-    platform: "darwin",
-    arch: "arm64",
-  },
-  {
-    platform: "linux",
-    arch: "x64",
-  },
-  {
-    platform: "linux",
-    arch: "arm64",
-  },
-  {
-    platform: "win32",
-    arch: "x64",
-  },
-  {
-    platform: "win32",
-    arch: "arm64",
-  },
-];
+const VARIANTS = fs
+  .readdirSync(path.join(ORIGINAL_PACKAGE, "prebuilds"))
+  .map((name) => {
+    const [platform, arch] = name.split("-");
+    return { platform, arch };
+  });
 
 function buildTopPackage() {
   const newPackage = path.join(PACKAGES, "top");
@@ -136,7 +116,7 @@ function osName(platform) {
     case "win32":
       return "Windows";
     default:
-      return platform;
+      throw new Error(`Unknown platform: ${platform}`);
   }
 }
 
@@ -147,7 +127,7 @@ function archName(arch) {
     case "arm64":
       return "ARM64";
     default:
-      return arch;
+      throw new Error(`Unknown arch: ${arch}`);
   }
 }
 
