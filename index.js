@@ -20,7 +20,7 @@ function requirePlatformSpecificPackage() {
         optionalDependencies === undefined
           ? `The @lydell/node-pty package could not find the platform-specific package: ${PACKAGE_NAME}\n\n${help}\n\nYour platform (${process.platform}-${process.arch}) might not be supported.`
           : PACKAGE_NAME in optionalDependencies
-          ? `The @lydell/node-pty package supports your platform (${process.platform}-${process.arch}), but it could not find the platform-specific package for it: ${PACKAGE_NAME}/${file}\n\n${help}`
+          ? `The @lydell/node-pty package supports your platform (${process.platform}-${process.arch}), but it could not find the platform-specific package for it: ${PACKAGE_NAME}\n\n${help}`
           : `The @lydell/node-pty package currently does not support your platform: ${process.platform}-${process.arch}`,
         { cause: error }
       );
