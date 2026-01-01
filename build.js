@@ -1,7 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const VERSION = "TODO";
+const META_PACKAGE_JSON = JSON.parse(
+  fs.readFileSync(path.join(import.meta.dirname, "package.json"), "utf-8")
+);
+
+const VERSION = META_PACKAGE_JSON.version;
 
 const ORIGINAL_PACKAGE = path.join(
   import.meta.dirname,
@@ -52,9 +56,6 @@ function buildTopPackage() {
     ),
   };
 
-  const originalPackageJson = JSON.parse(
-    fs.readFileSync(path.join(import.meta.dirname, "package.json"), "utf-8")
-  );
   const readme = fs.readFileSync(
     path.join(import.meta.dirname, "README.md"),
     "utf8"
@@ -65,7 +66,7 @@ ${readme.trim()}
 ## Version
 
 @lydell/node-pty@${VERSION} is based on node-pty@${
-    originalPackageJson.dependencies["node-pty"]
+    META_PACKAGE_JSON.dependencies["node-pty"]
   }.
 
 ## Prebuilt binaries
