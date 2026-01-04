@@ -15,7 +15,6 @@ for (const dir of [...VARIANTS, "top"]) {
     ["publish", "--access=public"],
     {
       cwd: path.join(import.meta.dirname, "packages", dir),
-      shell: true,
       stdio: "inherit",
     }
   );
