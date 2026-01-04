@@ -12,7 +12,7 @@ If so, try installing with npm rather than copying "node_modules".
 
 function requirePlatformSpecificPackage() {
   try {
-    return require(`${PACKAGE_NAME}`);
+    return require(PACKAGE_NAME);
   } catch (error) {
     if (error && error.code === "MODULE_NOT_FOUND") {
       const optionalDependencies = getOptionalDependencies();

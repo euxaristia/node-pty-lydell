@@ -191,7 +191,7 @@ function buildSubPackage({ platform, arch }) {
   const packageJson = {
     name: `@lydell/node-pty-${platform}-${arch}`,
     version: VERSION,
-    description: `The node-pty package, stripped down for only ${platform}-${arch}.`,
+    description: `The node-pty package, stripped down only for ${platform}-${arch}.`,
     repository: {
       type: "git",
       url: "git://github.com/lydell/node-pty.git",
@@ -224,12 +224,8 @@ function fix(dir) {
   for (const entry of entries) {
     const entryPath = path.join(dir, entry.name);
     if (entry.isFile()) {
-      if (
-        entryPath.endsWith(".node") ||
-        entryPath.endsWith(".pdb") ||
-        entryPath.endsWith("spawn-helper")
-      ) {
-        // At least on macOS, the files need to be executable.
+      // Make sure spawn-helper is executable.
+      if (entry.name === "spawn-helper") {
         fs.chmodSync(entryPath, 0o755);
       }
     } else if (entry.isDirectory()) {
