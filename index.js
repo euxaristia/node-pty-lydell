@@ -38,4 +38,10 @@ function getOptionalDependencies() {
   }
 }
 
+// These two lines are needed for `import * as pty from "@lydell/node-pty"` to work.
+// `import * as pty` is used in the README of microsoft/node-pty.
+Object.defineProperty(exports, "__esModule", { value: true });
+// prettier-ignore
+exports.native = exports.open = exports.createTerminal = exports.fork = exports.spawn = void 0;
+
 module.exports = requirePlatformSpecificPackage();
