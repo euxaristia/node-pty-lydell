@@ -101,6 +101,10 @@ ${VARIANTS.map(
     path.join(import.meta.dirname, "index.js"),
     path.join(newPackage, "index.js")
   );
+  verifyExports(
+    path.join(import.meta.dirname, "index.js"),
+    path.join(ORIGINAL_PACKAGE, "lib", "index.js")
+  );
 
   fs.cpSync(
     path.join(import.meta.dirname, "LICENSE"),
@@ -129,6 +133,31 @@ function archName(arch) {
       return "ARM64";
     default:
       throw new Error(`Unknown arch: ${arch}`);
+  }
+}
+
+function verifyExports(originalPath, newPath) {
+  const regex = /^exports\..+void 0;$/m;
+  const originalCode = fs.readFileSync(originalPath, "utf-8");
+  const newCode = fs.readFileSync(originalPath, "utf-8");
+  const originalMatch = regex.exec(originalCode);
+  const newMatch = regex.exec(newCode);
+  const ok =
+    originalMatch !== null &&
+    newMatch !== null &&
+    originalMatch[0] === newMatch[0];
+  if (!ok) {
+    throw new Error(
+      `
+exports don’t match!
+
+Original:
+${originalMatch?.[0]}
+
+New:
+${newMatch?.[0]}
+      `.trim()
+    );
   }
 }
 
