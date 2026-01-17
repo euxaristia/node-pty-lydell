@@ -246,17 +246,14 @@ ${packageJson.description}
   fs.writeFileSync(path.join(newPackage, "README.md"), readme);
 }
 
-// Make sure files are executable, and remove empty directories.
+// Remove empty directories.
 function fix(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   let numEntries = entries.length;
   for (const entry of entries) {
     const entryPath = path.join(dir, entry.name);
     if (entry.isFile()) {
-      // Make sure spawn-helper is executable.
-      if (entry.name === "spawn-helper") {
-        fs.chmodSync(entryPath, 0o755);
-      }
+      // Do nothing.
     } else if (entry.isDirectory()) {
       const numChildEntries = fix(entryPath);
       if (numChildEntries === 0) {
