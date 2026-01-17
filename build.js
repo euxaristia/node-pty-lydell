@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const META_PACKAGE_JSON = JSON.parse(
-  fs.readFileSync(path.join(import.meta.dirname, "package.json"), "utf-8")
+  fs.readFileSync(path.join(import.meta.dirname, "package.json"), "utf-8"),
 );
 
 const VERSION = META_PACKAGE_JSON.version;
@@ -10,7 +10,7 @@ const VERSION = META_PACKAGE_JSON.version;
 const ORIGINAL_PACKAGE = path.join(
   import.meta.dirname,
   "node_modules",
-  "node-pty"
+  "node-pty",
 );
 
 const PACKAGES = path.join(import.meta.dirname, "packages");
@@ -52,13 +52,13 @@ function buildTopPackage() {
       VARIANTS.map(({ platform, arch }) => [
         `@lydell/node-pty-${platform}-${arch}`,
         VERSION,
-      ])
+      ]),
     ),
   };
 
   const readme = fs.readFileSync(
     path.join(import.meta.dirname, "README.md"),
-    "utf8"
+    "utf8",
   );
   const newReadme = `
 ${readme.trim()}
@@ -75,14 +75,14 @@ This package includes prebuilt binaries for the following platforms and architec
 
 ${VARIANTS.map(
   ({ platform, arch }) =>
-    `- ${osName(platform)} ${archName(arch)} (${platform}-${arch})`
+    `- ${osName(platform)} ${archName(arch)} (${platform}-${arch})`,
 ).join("\n")}
 `.trim();
 
   const types = fs
     .readFileSync(
       path.join(ORIGINAL_PACKAGE, "typings", "node-pty.d.ts"),
-      "utf-8"
+      "utf-8",
     )
     .replace(`declare module 'node-pty'`, `declare module '@lydell/node-pty'`);
 
@@ -90,7 +90,7 @@ ${VARIANTS.map(
 
   fs.writeFileSync(
     path.join(newPackage, "package.json"),
-    JSON.stringify(packageJson, null, 2)
+    JSON.stringify(packageJson, null, 2),
   );
 
   fs.writeFileSync(path.join(newPackage, "README.md"), newReadme);
@@ -99,16 +99,16 @@ ${VARIANTS.map(
 
   fs.cpSync(
     path.join(import.meta.dirname, "index.js"),
-    path.join(newPackage, "index.js")
+    path.join(newPackage, "index.js"),
   );
   verifyExports(
     path.join(import.meta.dirname, "index.js"),
-    path.join(ORIGINAL_PACKAGE, "lib", "index.js")
+    path.join(ORIGINAL_PACKAGE, "lib", "index.js"),
   );
 
   fs.cpSync(
     path.join(import.meta.dirname, "LICENSE"),
-    path.join(newPackage, "LICENSE")
+    path.join(newPackage, "LICENSE"),
   );
 }
 
@@ -156,7 +156,7 @@ ${originalMatch?.[0]}
 
 New:
 ${newMatch?.[0]}
-      `.trim()
+      `.trim(),
     );
   }
 }
@@ -188,8 +188,8 @@ function buildSubPackage({ platform, arch }) {
             lastSegment.includes("conout")
               ? "windows"
               : lastSegment.includes("unix")
-              ? "unix"
-              : "shared";
+                ? "unix"
+                : "shared";
           return (
             !lastSegment.includes(".") ||
             (lastSegment.endsWith(".js") &&
@@ -209,7 +209,7 @@ function buildSubPackage({ platform, arch }) {
 
         default:
           throw new Error(
-            `Need to decide if should be included: ${firstSegment}`
+            `Need to decide if should be included: ${firstSegment}`,
           );
       }
     },
@@ -240,7 +240,7 @@ ${packageJson.description}
 
   fs.writeFileSync(
     path.join(newPackage, "package.json"),
-    JSON.stringify(packageJson, null, 2)
+    JSON.stringify(packageJson, null, 2),
   );
 
   fs.writeFileSync(path.join(newPackage, "README.md"), readme);
