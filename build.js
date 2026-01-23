@@ -192,13 +192,11 @@ function buildSubPackage({ platform, arch }) {
                 : "shared";
           return (
             !lastSegment.includes(".") ||
-            (lastSegment.endsWith(".js") &&
-              !lastSegment.endsWith(".test.js") &&
-              (type === "shared" || type === platformType))
+            type === "shared" ||
+            type === platformType
           );
 
         case "binding.gyp":
-        case "deps":
         case "package.json":
         case "README.md":
         case "scripts":

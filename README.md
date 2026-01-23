@@ -4,8 +4,10 @@ Smaller distribution of [microsoft/node-pty](https://github.com/microsoft/node-p
 
 - microsoft/node-pty ships with prebuilt binaries for multiple platforms. @lydell/node-pty only installs the prebuilt binaries needed for the current platform (depends on your package manager).
 - microsoft/node-pty supports compiling using node-gyp on unsupported platforms, which requires more source files (about two and a half megabytes). @lydell/node-pty only works on platforms with prebuilt binaries and never calls node-gyp.
-- microsoft/node-pty ships with unneeded files, such as source code TypeScript files, source maps and test files. @lydell/node-pty removes those (about half a megabyte).
+- microsoft/node-pty ships with Windows-specific and Unix-like-specific JavaScript code on all platforms. @lydell/node-pty only ships Windows-specific JavaScript files for Windows, and Unix-like-specific JavaScript files for non-Windows. This only saves a few tens of kilobytes, though.
 - microsoft/node-pty is tens of megabytes. @lydell/node-pty is way less than one megabyte on macOS and Linux, and around half of microsoft/node-pty on Windows. The thing that takes the most space is microsoft/node-pty are the two Windows binaries it ships.
+
+All in all, once microsoft/node-pty [only ships the needed prebuilt binaries for the current platform](https://github.com/microsoft/node-pty/issues/864), there probably isn’t much of a point to @lydell/node-pty anymore. It would only save a couple of megabytes (at the expense of not being able to compile on unsupported platforms).
 
 @lydell/node-pty is built like this:
 
