@@ -274,7 +274,13 @@ export class UnixTerminal extends Terminal {
     if (cols <= 0 || rows <= 0 || isNaN(cols) || isNaN(rows) || cols === Infinity || rows === Infinity) {
       throw new Error('resizing must be done using positive cols and rows');
     }
-    pty.resize(this._fd, cols, rows);
+    try {
+      pty.resize(this._fd, cols, rows);
+    } catch (e: any) {
+      // EBADF means the fd is already closed (PTY destroyed before resize fires); ignore it
+      if (e?.code === 'EBADF' || e?.message?.includes('EBADF')) { return; }
+      throw e;
+    }
     this._cols = cols;
     this._rows = rows;
   }
